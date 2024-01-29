@@ -8,23 +8,64 @@ let attr_result = "";
 let token_id = "";
 //const log = new Logger.Logger("all.log", "debug");
 
+// function uploadData(attr, token) {
+//     try {
+//         console.log("try to upload data");
+//         const str_url = "/JaugToBDD";// + token + "/telemetry";
+//         const len_attr = attr.length;
+//         const headers = { 
+//             "Host": "localhost",
+//             "User-Agent": "curl/7.55.1",
+//             "Accept-Language": "*/*",
+//             "Content-Type": "application/json",
+//             "Authorization":token,
+//             "Content-Length": len_attr.toString(),
+//         };
+
+//         const options = {
+//             hostname: "127.0.0.1",
+//             port: 8000,
+//             path: str_url,
+//             method: "POST",
+//             headers: headers,
+//         };
+
+//         const req = http.request(options, (res) => {
+//             console.log("response is " + res.statusCode);
+//             //log.logger.debug("uploadData: response is " + res.statusCode);
+//         });
+
+//         req.on('error', (error) => {
+//             console.error(error);
+//             //log.logger.exception("uploadData", error);
+//         });
+
+//         req.write(attr);
+//         req.end();
+//     } catch (ex) {
+//         console.log(ex);
+//       //  log.logger.exception("uploadData", ex);
+//     }
+// }
+
 function uploadData(attr, token) {
     try {
         console.log("try to upload data");
-        const str_url = "/login";// + token + "/telemetry";
+        const str_url = "/JaugToBDD"; // Adjust the path as needed
         const len_attr = attr.length;
+
         const headers = {
-            "Host": "localhost",
+            "Host": "http://bkstsl.dzkimtech.com", // Update the host
             "User-Agent": "curl/7.55.1",
             "Accept-Language": "*/*",
             "Content-Type": "application/json",
-            "Authorization":token,
+            "Authorization": token,
             "Content-Length": len_attr.toString(),
         };
 
         const options = {
-            hostname: "localhost",
-            port: 5000,
+            hostname: "http://bkstsl.dzkimtech.com", // Update the host
+            port: 8000, // Default port for HTTP
             path: str_url,
             method: "POST",
             headers: headers,
@@ -32,22 +73,21 @@ function uploadData(attr, token) {
 
         const req = http.request(options, (res) => {
             console.log("response is " + res.statusCode);
-            //log.logger.debug("uploadData: response is " + res.statusCode);
+            // Handle the response as needed
         });
 
         req.on('error', (error) => {
             console.error(error);
-            //log.logger.exception("uploadData", error);
+            // Handle the error as needed
         });
 
         req.write(attr);
         req.end();
     } catch (ex) {
         console.log(ex);
-      //  log.logger.exception("uploadData", ex);
+        // Handle the exception as needed
     }
 }
-
 function responseSensor(client, data) {
     try {
         client.write(data, 'utf-8');

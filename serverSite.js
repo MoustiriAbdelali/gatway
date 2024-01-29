@@ -15,15 +15,56 @@ app.use(cors())
 
 
 
-
-
 ///////////////////////CNX SQL//////////////////
+// const db2 = mysql.createConnection({
+//  host: "91.134.151.72",
+//   user: "brzukxvw_STS",
+//   password: "6$bT~{h8PgAf",
+//   database: "brzukxvw_GSTS"
+// }); 
 const db2 = mysql.createConnection({
-  host: "91.134.151.72",
-  user: "brzukxvw_STS",
-  password: "6$bT~{h8PgAf",
-  database: "brzukxvw_GSTS"
+ host: "localhost",
+  user: "root",
+  password: "",
+  database: "brzukxvw_STS"
+}); 
+
+// Établir la connexion à la base de données
+db2.connect(err => {
+    if (err) {
+      console.error('Erreur de connexion à la base de données :', err);
+    } else {
+      console.log('Connexion à la base de données réussie.');
+    }
+  });
+
+
+
+  app.post("/login2", (req, res) => {
+    //console.log(req.headers.authorization);
+    
+    const sql_ = "SELECT Cuve.cuve_id FROM `Cuve` WHERE Token=?";
+    
+    db2.query(sql_, [req.headers.authorization], (err, data) => {
+      if (err) {
+        console.error('Erreur lors de l\'exécution de la requête SQL :', err);
+        return res.status(500).send('Erreur serveur');
+      }else{
+  
+    let qte_ =	100			
+      const sqlInser="INSERT INTO `mesure_cuve`( `date`, `Level`, `CuveId`, `AlarmeLevel`, `AlarmeBattery`, `Volt`, `Rsrp`,`Qte`) VALUES (?,?,?,?,?,?,?,?)"
+            db2.query(sqlInser,[dateheur(),req.body.height  ,data[0].cuve_id  ,req.body.empty_alarm,  req.body.battery_alarm  ,req.body.volt ,req.body.rsrp,qte_] ,(err_,date__)=>{
+                if (err_) {
+                    console.error('Erreur lors de l\'exécution de la requête SQL :', err);
+                    return res.status(500).send('Erreur serveur');
+                  }
+      // Faites quelque chose avec les données ici (envoyer une réponse, etc.)
+      res.status(200).json(date__);
+      })};
+  });
 });
+
+
 
 
 app.post("/login", (req, res) => {
