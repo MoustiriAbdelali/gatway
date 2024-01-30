@@ -66,6 +66,8 @@ function uploadData(attr, token) {
         })
         .then((response) => {
             console.log("response is " + response.status);
+            client.write("8002999901003C81");
+
             // Handle the response as needed
         })
         .catch((error) => {
@@ -145,7 +147,6 @@ const server = net.createServer((client) => {
     console.log('connected');
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
-    client.write("8002999901003C81");
     handleClient(client);
  
 
