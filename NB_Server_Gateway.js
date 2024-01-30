@@ -108,7 +108,7 @@ function handleClient(client) {
                 }
                  else if (dataType === "16") {
                     
-                    console.log( strSubReq.trim().toUpperCase());
+                    console.log( "1--------",strSubReq.trim().toUpperCase());
                     [attrResult, tokenId] = df556.df.parse_data_DF556(strSubReq.trim().toUpperCase());
                 }
                 

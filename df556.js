@@ -8,7 +8,7 @@ class df {
 
 
         let originalString = req_data;
-        let charactersToRemove = 10; // Number of characters to remove from the right
+        let charactersToRemove = 0; // Number of characters to remove from the right
         let newString = originalString.substr(0, originalString.length - charactersToRemove);
         req_data=newString
         console.log(req_data);
