@@ -66,7 +66,7 @@ function uploadData(attr, token) {
         })
         .then((response) => {
             console.log("response is " + response.status);
-            client.write("8002999901003C81");
+            
 
             // Handle the response as needed
         })
@@ -120,6 +120,17 @@ function handleClient(client) {
                 if (attrResult !== "" && tokenId !== "") {
                     uploadData(attrResult, tokenId);
                     // log.logger.debug("after upload data ");
+
+                   
+                        try {
+                            client.write("8002999901003C81", 'utf-8');
+                        } catch (ex) {
+                            console.error("*************************************************",ex);
+                            // log.logger.exception(ex);
+                        }
+                   
+
+
                 } else {
                     // log.logger.debug("invalid data ");
                 }
