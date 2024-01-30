@@ -140,15 +140,17 @@ function handleClient(client) {
     }
 }
 
+
 const server = net.createServer((client) => {
     console.log('connected');
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
-    client.write('yes');
+    client.write("8002999901003C81");
     handleClient(client);
+ 
 
+   // broadcastMessage("slem likoulm")
 });
-
 server.listen(port_number, '0.0.0.0', () => {
    console.log(`Server listening on port ${port_number}`);
    // log.logger.debug(`Server listening on port ${port_number}`);
@@ -156,5 +158,17 @@ server.listen(port_number, '0.0.0.0', () => {
 
 server.on('error', (error) => {
     console.error(error);
+    
     // log.logger.error(error);
 });
+
+
+// // Function to broadcast a message to all connected clients
+// function broadcastMessage(message) {
+//     clients.forEach((client) => {
+//       client.write(8002999901003C81);
+//     });
+//   }
+
+
+ 
