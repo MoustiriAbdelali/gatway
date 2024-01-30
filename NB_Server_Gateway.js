@@ -6,16 +6,15 @@ const port_number = 9500;
 const max_clients = 10;
 let attr_result = "";
 let token_id = "";
-
-
-function uploadData(attr, token) {
+const host="www.bkstsl.dzkimtech.com"//"localhost"
+const axios = require('axios');
+function uploadData2(attr, token) {
     try {
         console.log("try to upload data");
-        const str_url = "/JaugToBDD"; // Adjust the path as needed
+        const str_url = "https://bkstsl.dzkimtech.com/JaugToBDD"; // Adjust the path as needed
         const len_attr = attr.length;
 
         const headers = {
-            "Host": "http://bkstsl.dzkimtech.com", // Update the host
             "User-Agent": "curl/7.55.1",
             "Accept-Language": "*/*",
             "Content-Type": "application/json",
@@ -24,8 +23,8 @@ function uploadData(attr, token) {
         };
 
         const options = {
-            hostname: "http://bkstsl.dzkimtech.com", // Update the host
-            port: 8000, // Default port for HTTP
+           // hostname: "bkstsl.dzkimtech.com", // Update the host
+          // port: 3500, // Default port for HTTP
             path: str_url,
             method: "POST",
             headers: headers,
@@ -48,6 +47,37 @@ function uploadData(attr, token) {
         // Handle the exception as needed
     }
 }
+
+
+
+function uploadData(attr, token) {
+    try {
+        console.log("try to upload data");
+        const str_url = "http://bkstsl.dzkimtech.com/JaugToBDD"; // Update the URL
+        const headers = {
+            "User-Agent": "curl/7.55.1",
+            "Accept-Language": "*/*",
+            "Content-Type": "application/json",
+            "Authorization": token,
+        };
+
+        axios.post(str_url, attr, {
+            headers: headers,
+        })
+        .then((response) => {
+            console.log("response is " + response.status);
+            // Handle the response as needed
+        })
+        .catch((error) => {
+            console.error(error);
+            // Handle the error as needed
+        });
+    } catch (ex) {
+        console.log(ex);
+        // Handle the exception as needed
+    }
+}
+
 function responseSensor(client, data) {
     try {
         client.write(data, 'utf-8');
