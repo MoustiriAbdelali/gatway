@@ -127,13 +127,13 @@ function handleClient(client) {
 
                             const [uplod,testtim]=parmere()
                             client.write(uplod, 'utf-8');
-                           try {
-                            client.write(testtim, 'utf-8');
+                        //    try {
+                        //     client.write(testtim, 'utf-8');
 
-                           }catch (ex) {
-                            console.error("*************************************************2",ex);
-                            // log.logger.exception(ex);
-                        }
+                        //    }catch (ex) {
+                        //     console.error("*************************************************2",ex);
+                        //     // log.logger.exception(ex);
+                        // }
 
                         } catch (ex) {
                             console.error("*************************************************1",ex);
