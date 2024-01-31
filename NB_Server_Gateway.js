@@ -121,7 +121,7 @@ function handleClient(client) {
                 if (attrResult !== "" && tokenId !== "") {
                     uploadData(attrResult, tokenId);
                     // log.logger.debug("after upload data ");
-
+ 
                    
                         
                    
@@ -131,14 +131,33 @@ function handleClient(client) {
                     // log.logger.debug("invalid data ");
                 }
                 
-                setTimeout(() => {
-                    client.end();
-                }, 1000);
+
+                try {
+                    const [uplod,testtim]=parmere()
+                    client.write(uplod, 'utf-8');
+                    setTimeout(() => {
+                        client.end();
+                    }, 1000);
+                //    try {
+                    
+            
+                //    }catch (ex) {
+                //     console.error("*************************************************2",ex);
+                //     // log.logger.exception(ex);
+                // }
+            
+                } catch (ex) {
+                    console.error("*************************************************1",ex);
+                    // log.logger.exception(ex);
+                }
+                
                 
                 // log.logger.debug("close device connection");
             }
         });
 
+
+        //client.on('cmd')
         client.on('timeout', () => {
             console.log("timeout");
             client.end();
@@ -154,23 +173,8 @@ const server = net.createServer((client) => {
     console.log('connected');
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
-
-    try {
-
-        const [uplod,testtim]=parmere()
-        client.write(uplod, 'utf-8');
-       try {
-        handleClient(client);
-
-       }catch (ex) {
-        console.error("*************************************************2",ex);
-        // log.logger.exception(ex);
-    }
-
-    } catch (ex) {
-        console.error("*************************************************1",ex);
-        // log.logger.exception(ex);
-    }
+    handleClient(client);
+    
      
    // broadcastMessage("slem likoulm")
 });
