@@ -9,6 +9,9 @@ let token_id = "";
 const host="www.bkstsl.dzkimtech.com"//"localhost"
 const axios = require('axios');
 const { Socket } = require('dgram');
+const { log } = require('console');
+
+let sending =Boolean 
 function uploadData2(attr, token) {
     try {
         console.log("try to upload data");
@@ -133,11 +136,21 @@ function handleClient(client) {
                 
 
                 try {
-                    const [uplod,testtim]=parmere()
-                    client.write(uplod, 'utf-8');
-                    setTimeout(() => {
-                        client.end();
-                    }, 1000);
+
+                    if (sending===true) {
+
+                        console.log("true");
+                        const [uplod,testtim]=parmere()
+                        client.write(uplod, 'utf-8');
+                        setTimeout(() => {
+                            client.end();
+                        }, 1000);
+                        sending=false
+                    }else{
+                        console.log("false");
+                        sending=true
+                    }
+                  
                 //    try {
                     
             
