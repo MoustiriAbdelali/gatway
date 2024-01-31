@@ -8,6 +8,7 @@ let attr_result = "";
 let token_id = "";
 const host="www.bkstsl.dzkimtech.com"//"localhost"
 const axios = require('axios');
+const { Socket } = require('dgram');
 function uploadData2(attr, token) {
     try {
         console.log("try to upload data");
@@ -123,7 +124,12 @@ function handleClient(client) {
 
                    
                         try {
-                            client.write("8002999901003C81", 'utf-8');
+
+                            const [uplod,testtim]=parmere()
+                           console.log(uplod,testtim);
+                            client.write(uplod, 'utf-8');
+                            client.write(testtim, 'utf-8');
+
                         } catch (ex) {
                             console.error("*************************************************",ex);
                             // log.logger.exception(ex);
@@ -158,9 +164,7 @@ const server = net.createServer((client) => {
     console.log('connected');
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
-    handleClient(client);
- 
-
+    handleClient(client); 
    // broadcastMessage("slem likoulm")
 });
 server.listen(port_number, '0.0.0.0', () => {
@@ -174,13 +178,51 @@ server.on('error', (error) => {
     // log.logger.error(error);
 });
 
+function parmere() {
+    var now = new Date();
+    var value   = now.getHours();
+    var minute  = now.getMinutes();
 
-// // Function to broadcast a message to all connected clients
-// function broadcastMessage(message) {
-//     clients.forEach((client) => {
-//       client.write(8002999901003C81);
-//     });
-//   }
+    if (value >= 5 && value < 20) {
+        return[convertToHexadecimal(30,4),convertToHexadecimal(12,2)]      
+      } else if (value < 5 && value >= 0) {
+        
+        switch (value) {
+            case 2:    ///3h
+                return[convertToHexadecimal(180,4),convertToHexadecimal(60,2)]
+            case 3://2h
+                return[convertToHexadecimal(120,4),convertToHexadecimal(60,2)]
+            case 4://1h
+                return[convertToHexadecimal(60,4),convertToHexadecimal(59,2)]
+            default://4h
+                return[convertToHexadecimal(240,4),convertToHexadecimal(60,2)]
+        }
+      } else {//4h
+        return[convertToHexadecimal(240,4),convertToHexadecimal(60,2)]
 
+      }
+}
+
+function convertToHexadecimal(number,linght) {
+    if (isNaN(number)) {
+      return "Invalid input. Please provide a valid number.";
+    }
+  
+    // Using toString(16) to convert the number to hexadecimal
+    const hexadecimal = number.toString(16).toUpperCase();
+  
+    // Using padStart to ensure a fixed length with leading zeros
+    const paddedHexadecimal = hexadecimal.padStart(linght, '0');
+  switch (linght) {
+    case 4:
+    return "8002999901"+paddedHexadecimal+"81";
+      
+      break;
+    default:
+    return "8002999908"+paddedHexadecimal+"81";
+  
+      break;
+  }
+  }
 
  
