@@ -123,22 +123,7 @@ function handleClient(client) {
                     // log.logger.debug("after upload data ");
 
                    
-                        try {
-
-                            const [uplod,testtim]=parmere()
-                            client.write(uplod, 'utf-8');
-                        //    try {
-                        //     client.write(testtim, 'utf-8');
-
-                        //    }catch (ex) {
-                        //     console.error("*************************************************2",ex);
-                        //     // log.logger.exception(ex);
-                        // }
-
-                        } catch (ex) {
-                            console.error("*************************************************1",ex);
-                            // log.logger.exception(ex);
-                        }
+                        
                    
 
 
@@ -169,7 +154,24 @@ const server = net.createServer((client) => {
     console.log('connected');
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
-    handleClient(client); 
+
+    try {
+
+        const [uplod,testtim]=parmere()
+        client.write(uplod, 'utf-8');
+       try {
+        handleClient(client);
+
+       }catch (ex) {
+        console.error("*************************************************2",ex);
+        // log.logger.exception(ex);
+    }
+
+    } catch (ex) {
+        console.error("*************************************************1",ex);
+        // log.logger.exception(ex);
+    }
+     
    // broadcastMessage("slem likoulm")
 });
 server.listen(port_number, '0.0.0.0', () => {
