@@ -142,13 +142,17 @@ function handleClient(client) {
                         console.log("true");
                         const [uplod,testtim]=parmere()
                         client.write(uplod, 'utf-8');
+                        sending=false
                         setTimeout(() => {
                             client.end();
                         }, 1000);
-                        sending=false
+                        
                     }else{
                         console.log("false");
                         sending=true
+                        setTimeout(() => {
+                            client.end();
+                        }, 1000);
                     }
                   
                 //    try {
