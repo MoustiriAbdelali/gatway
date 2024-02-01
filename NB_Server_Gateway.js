@@ -93,14 +93,12 @@ function responseSensor(client, data) {
     }
 }
 
-function handleClient(client) {
-  
+function handleClient(client) { 
     try {
         client.setTimeout(10000); // 10 seconds timeout
         let requestBytes = Buffer.from([]);
         let attrResult = "";
         let tokenId = "";
-
         client.on('data', (data) => {
             requestBytes = Buffer.concat([requestBytes, data]);
             const requestStr = requestBytes.toString('hex');
@@ -112,62 +110,56 @@ function handleClient(client) {
                 if (dataType === "01") {
                     [attrResult, tokenId] = df702.parseDataDF702(strSubReq.trim().toUpperCase());
                 }
-                 else if (dataType === "16") {
-                    
+                 else if (dataType === "16") {                  
                     console.log( "1--------",strSubReq.trim().toUpperCase());
                     [attrResult, tokenId] = df556.df.parse_data_DF556(strSubReq.trim().toUpperCase());
-                }
-                
+                }              
                 console.log(`attr___ is ${attrResult}, token_id is____ ${tokenId}`);
                 // log.logger.debug(`attr is ${attrResult}, token_id is ${tokenId}`);
-                
                 if (attrResult !== "" && tokenId !== "") {
                     uploadData(attrResult, tokenId);
                     // log.logger.debug("after upload data ");
- 
-                   
-                        
-                   
-
-
                 } else {
                     // log.logger.debug("invalid data ");
-                }
-                
-
+                }               
                 try {
-
-                    if (sending===true) {
-
-                        console.log("true");
-                        const [uplod,testtim]=parmere()
-                        client.write(uplod, 'utf-8');
-                        sending=false
-                        setTimeout(() => {
-                            client.end();
-                        }, 1000);
-                        
-                    }else{
-                        console.log("false");
-                        sending=true
-                        setTimeout(() => {
-                            client.end();
-                        }, 1000);
-                    }
-                  
-                //    try {
+                    //  const [CodeUpload,CodeDetection]=TimeTestCmdSending()
+                    // client.write(CodeUpload, 'utf-8');
+                    // client.write(CodeDetection, 'utf-8');
+                    // setTimeout(() => {
+                    //     client.end();
+                    // }, 1000);
                     
-            
-                //    }catch (ex) {
-                //     console.error("*************************************************2",ex);
-                //     // log.logger.exception(ex);
-                // }
-            
+
+if (TimeSending()===true) {
+    if (sending===true) {
+
+        const [CodeUpload,CodeDetection]=TimeTestCmdSending()
+         client.write(CodeUpload, 'utf-8');
+        sending=false
+        setTimeout(() => {
+            client.end();
+        }, 1000);
+        
+    }else{
+        sending=true
+        setTimeout(() => {
+            client.end();
+        }, 1000);
+    }
+}else{
+
+    console.log("hrer");
+    setTimeout(() => {
+        client.end();
+    }, 1000);
+}
+                  
+                  
                 } catch (ex) {
                     console.error("*************************************************1",ex);
                     // log.logger.exception(ex);
                 }
-                
                 
                 // log.logger.debug("close device connection");
             }
@@ -206,7 +198,7 @@ server.on('error', (error) => {
     // log.logger.error(error);
 });
 
-function parmere() {
+function TimeTestCmdSending() {
     var now = new Date();
     var value   = now.getHours();
     var minute  = now.getMinutes();
@@ -253,4 +245,16 @@ function convertToHexadecimal(number,linght) {
   }
   }
 
+
+  function TimeSending(){
+var now = new Date();
+    var value   = now.getHours();
+
+if (value===9 || value===10 || value===11 ||value===12 ||value===13 ||value===14 ||value===15 ||value===16 ||value===17  ) {
+return false
+    
+}else{
+    return true
+}
+  }
  
