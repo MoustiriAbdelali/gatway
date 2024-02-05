@@ -134,7 +134,7 @@ function handleClient(client) {
                     console.log(tableautokren);
                     let indiceAlice = tableautokren.findIndex(element => element.nom === tokenId);
                     if (indiceAlice === -1) {
-                        tableautokren.push({ nom: tokenId, valeur: 1 });
+                        tableautokren.push({ nom: tokenId, valeur: 0 });
                         sending=1
                         console.log("Alice se trouve à l'indice :", indiceAlice);
                       } else {
@@ -150,7 +150,6 @@ function handleClient(client) {
                   console.log(tokenId,sending);
 //if (TimeSending()===true) {
 
-//client.write("80029999090E81", 'utf-8');
     if (sending===1) {
  log("in");console.
         const [CodeUpload,CodeDetection]=TimeTestCmdSending()
@@ -160,7 +159,7 @@ function handleClient(client) {
         }, 1000);
         
     }else{
-        log("out");console.
+        console.log("out");
         setTimeout(() => {
             client.end();
         }, 1000);
