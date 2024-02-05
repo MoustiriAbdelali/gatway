@@ -11,7 +11,7 @@ const axios = require('axios');
 const { Socket } = require('dgram');
 const { log } = require('console');
 
-let sending =Boolean 
+let tableautokren= [{ nom: "clone", valeur: 1 },]
 function uploadData2(attr, token) {
     try {
         console.log("try to upload data");
@@ -130,29 +130,44 @@ function handleClient(client) {
                     //     client.end();
                     // }, 1000);
                     
+                    let sending
+                    console.log(tableautokren);
+                    let indiceAlice = tableautokren.findIndex(element => element.nom === tokenId);
+                    if (indiceAlice === -1) {
+                        tableautokren.push({ nom: tokenId, valeur: 1 });
+                        sending=1
+                        console.log("Alice se trouve à l'indice :", indiceAlice);
+                      } else {
+                        sending=tableautokren[indiceAlice].valeur
+                        if (tableautokren[indiceAlice].valeur===1) {
+                            tableautokren[indiceAlice].valeur=0
+                        }else{
+                            tableautokren[indiceAlice].valeur=1
+                        }
+                     
+                      }
 
+                  console.log(tokenId,sending);
 //if (TimeSending()===true) {
 
-console.log(sending);
 //client.write("80029999090E81", 'utf-8');
-    if (sending===true) {
+    if (sending===1) {
 
         const [CodeUpload,CodeDetection]=TimeTestCmdSending()
          client.write(CodeUpload, 'utf-8');
-        sending=false
         setTimeout(() => {
             client.end();
         }, 1000);
         
     }else{
-        sending=true
         setTimeout(() => {
             client.end();
         }, 1000);
     }
 // }else{
-
+//     tableautokren[indiceAlice].valeur=1
 //     console.log("hrer");
+
 //     setTimeout(() => {
 //         client.end();
 //     }, 1000);
@@ -185,6 +200,9 @@ const server = net.createServer((client) => {
     console.log('connected');
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
+
+   
+
     handleClient(client);
     
      
