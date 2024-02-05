@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "bda": "nodemon NB_Server_Gateway.js"
+    "start": "nodemon NB_Server_Gateway.js"
   },
   "keywords": [],
   "author": "",
