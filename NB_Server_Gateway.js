@@ -134,22 +134,22 @@ function handleClient(client) {
 //if (TimeSending()===true) {
 
 console.log(sending);
-client.write("80029999090E81", 'utf-8');
-    // if (sending===true) {
+//client.write("80029999090E81", 'utf-8');
+    if (sending===true) {
 
-    //     const [CodeUpload,CodeDetection]=TimeTestCmdSending()
-    //      client.write(CodeUpload, 'utf-8');
-    //     sending=false
-    //     setTimeout(() => {
-    //         client.end();
-    //     }, 1000);
+        const [CodeUpload,CodeDetection]=TimeTestCmdSending()
+         client.write(CodeUpload, 'utf-8');
+        sending=false
+        setTimeout(() => {
+            client.end();
+        }, 1000);
         
-    // }else{
-    //     sending=true
-    //     setTimeout(() => {
-    //         client.end();
-    //     }, 1000);
-    // }
+    }else{
+        sending=true
+        setTimeout(() => {
+            client.end();
+        }, 1000);
+    }
 // }else{
 
 //     console.log("hrer");
