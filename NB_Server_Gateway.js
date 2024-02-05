@@ -209,7 +209,7 @@ const server = net.createServer((client) => {
    // broadcastMessage("slem likoulm")
 });
 server.listen(port_number, '0.0.0.0', () => {
-   console.log(`Server listening on port ${port_number}`);
+   console.log(`Server listening on port : ${port_number}`);
    // log.logger.debug(`Server listening on port ${port_number}`);
 });
 
