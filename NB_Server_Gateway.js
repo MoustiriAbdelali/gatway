@@ -152,7 +152,7 @@ function handleClient(client) {
 
 //client.write("80029999090E81", 'utf-8');
     if (sending===1) {
-
+ log("in");console.
         const [CodeUpload,CodeDetection]=TimeTestCmdSending()
          client.write(CodeUpload, 'utf-8');
         setTimeout(() => {
@@ -160,6 +160,7 @@ function handleClient(client) {
         }, 1000);
         
     }else{
+        log("out");console.
         setTimeout(() => {
             client.end();
         }, 1000);
