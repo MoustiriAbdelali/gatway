@@ -131,7 +131,7 @@ function handleClient(client) {
                     // }, 1000);
                     
 
-if (TimeSending()===true) {
+//if (TimeSending()===true) {
     if (sending===true) {
 
         const [CodeUpload,CodeDetection]=TimeTestCmdSending()
@@ -147,13 +147,13 @@ if (TimeSending()===true) {
             client.end();
         }, 1000);
     }
-}else{
+// }else{
 
-    console.log("hrer");
-    setTimeout(() => {
-        client.end();
-    }, 1000);
-}
+//     console.log("hrer");
+//     setTimeout(() => {
+//         client.end();
+//     }, 1000);
+// }
                   
                   
                 } catch (ex) {
