@@ -148,34 +148,31 @@ function handleClient(client) {
                       }
 
                   console.log(tokenId,sending);
-//if (TimeSending()===true) {
+if (TimeSending()===true) {
 
     if (sending===1) {
- console.log("in");
         const [CodeUpload,CodeDetection]=TimeTestCmdSending()
-        console.log("80029999090681");
-         //client.write(CodeUpload, 'utf-8');
+        //console.log("80029999090681");
+         client.write(CodeUpload, 'utf-8');
 
 
-         client.write("80029999090681", 'utf-8');
+         //client.write("80029999090681", 'utf-8');
         setTimeout(() => {
             client.end();
         }, 1000);
         
     }else{
-        console.log("out");
         setTimeout(() => {
             client.end();
         }, 1000);
     }
-// }else{
-//     tableautokren[indiceAlice].valeur=1
-//     console.log("hrer");
+}else{
+    tableautokren[indiceAlice].valeur=1
 
-//     setTimeout(() => {
-//         client.end();
-//     }, 1000);
-// }
+    setTimeout(() => {
+        client.end();
+    }, 1000);
+}
                   
                   
                 } catch (ex) {
