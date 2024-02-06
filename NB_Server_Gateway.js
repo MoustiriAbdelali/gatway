@@ -232,6 +232,8 @@ function handleClient(client) {
                                             return;
                                         }
                                         tableautokren[indiceAlice].valeur=0
+
+                                        console.log(tableautokren);
                                     });
                                 });
                               
@@ -244,7 +246,7 @@ function handleClient(client) {
 
 
                 function  EnvoyerCmdSipmle(){
-
+                 console.log(sending);
                     if (TimeSending()===true) {
 
                         if (sending===1) {
