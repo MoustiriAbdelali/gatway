@@ -246,7 +246,7 @@ function handleClient(client) {
 
 
                 function  EnvoyerCmdSipmle(){
-                 console.log(sending);
+                 console.log("sending:",sending);
                     if (TimeSending()===true) {
 
                         if (sending===1) {
