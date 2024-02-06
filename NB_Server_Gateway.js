@@ -224,7 +224,6 @@ function handleClient(client) {
                                         console.error("Une erreur s'est produite lors de l'écriture sur le client :", err);
                                         return;
                                     }
-                                    console.log("L'écriture sur le client a été effectuée avec succès.");
                                 
                                     // Second operation: changerValeurCmd
                                     changerValeurCmd(tokenId, null, (err) => {
@@ -232,7 +231,7 @@ function handleClient(client) {
                                             console.error("Une erreur s'est produite lors du changement de la valeur :", err);
                                             return;
                                         }
-                                        console.log("La valeur a été changée avec succès.");
+                                        tableautokren[indiceAlice].valeur=0
                                     });
                                 });
                               
