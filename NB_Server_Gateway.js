@@ -11,6 +11,67 @@ const axios = require('axios');
 const { Socket } = require('dgram');
 const { log } = require('console');
 
+
+const fs = require('fs');
+
+
+function readcmd( elementId, callback) {
+    fs.readFile('CMD.json', 'utf8', (err, data) => {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        try {
+            const jsonData = JSON.parse(data);
+            const elementData = jsonData[elementId];
+            if (elementData === undefined) {
+                throw new Error("L'élément spécifié n'existe pas dans le fichier JSON.");
+            }
+            callback(null, elementData);
+        } catch (parseError) {
+            callback(parseError, null);
+        }
+    });
+}
+
+function changerValeurCmd( nouvelId, nouvelleValeur, callback) {
+    fs.readFile('CMD.json', 'utf8', (err, data) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        try {
+            // Convertir les données JSON en objet JavaScript
+            const jsonData = JSON.parse(data);
+
+            // Modifier la valeur de la propriété "cmd"
+            if (jsonData.hasOwnProperty(nouvelId)) {
+                jsonData[nouvelId].cmd = nouvelleValeur;
+            } else {
+                throw new Error("L'identifiant spécifié n'existe pas dans le fichier JSON.");
+            }
+
+            // Convertir l'objet JavaScript modifié en chaîne JSON
+            const nouveauContenuJSON = JSON.stringify(jsonData, null, 2);
+
+            // Écrire les modifications dans le fichier JSON
+            fs.writeFile('CMD.json', nouveauContenuJSON, 'utf8', (err) => {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                callback(null);
+            });
+        } catch (erreur) {
+            callback(erreur);
+        }
+    });
+}
+
+
+
+
 let tableautokren= [{ nom: "clone", valeur: 1 },]
 function uploadData2(attr, token) {
     try {
@@ -131,12 +192,12 @@ function handleClient(client) {
                     // }, 1000);
                     
                     let sending
-                    console.log(tableautokren);
+                    //console.log(tableautokren);
                     let indiceAlice = tableautokren.findIndex(element => element.nom === tokenId);
                     if (indiceAlice === -1) {
                         tableautokren.push({ nom: tokenId, valeur: 0 });
                         sending=1
-                        console.log("Alice se trouve à l'indice :", indiceAlice);
+                        //console.log("Alice se trouve à l'indice :", indiceAlice);
                       } else {
                         sending=tableautokren[indiceAlice].valeur
                         if (tableautokren[indiceAlice].valeur===1) {
@@ -147,32 +208,71 @@ function handleClient(client) {
                      
                       }
 
-                  console.log(tokenId,sending);
-if (TimeSending()===true) {
+                  //console.log(tokenId,sending);
 
-    if (sending===1) {
-        const [CodeUpload,CodeDetection]=TimeTestCmdSending()
-        //console.log("80029999090681");
-         client.write(CodeUpload, 'utf-8');
+                  readcmd( tokenId, (err, data) => {
+                    if (err) {
+                        console.error("Une erreur s'est produite lors de la lecture du fichier :", err);
+                        EnvoyerCmdSipmle()
+                    }else {
+                        if (data.cmd===null){
+                            EnvoyerCmdSipmle()
+                            }else{
+
+                                client.write(data.cmd, 'utf-8', (err) => {
+                                    if (err) {
+                                        console.error("Une erreur s'est produite lors de l'écriture sur le client :", err);
+                                        return;
+                                    }
+                                    console.log("L'écriture sur le client a été effectuée avec succès.");
+                                
+                                    // Second operation: changerValeurCmd
+                                    changerValeurCmd(tokenId, null, (err) => {
+                                        if (err) {
+                                            console.error("Une erreur s'est produite lors du changement de la valeur :", err);
+                                            return;
+                                        }
+                                        console.log("La valeur a été changée avec succès.");
+                                    });
+                                });
+                              
+                                
+                            }
+                    }
+                    
+                });
 
 
-         //client.write("80029999090681", 'utf-8');
-        setTimeout(() => {
-            client.end();
-        }, 1000);
-        
-    }else{
-        setTimeout(() => {
-            client.end();
-        }, 1000);
-    }
-}else{
-    tableautokren[indiceAlice].valeur=1
 
-    setTimeout(() => {
-        client.end();
-    }, 1000);
-}
+                function  EnvoyerCmdSipmle(){
+
+                    if (TimeSending()===true) {
+
+                        if (sending===1) {
+                            const [CodeUpload,CodeDetection]=TimeTestCmdSending()
+                             client.write(CodeUpload, 'utf-8');
+                    
+                    
+                             //client.write("80029999090681", 'utf-8');
+                            setTimeout(() => {
+                                client.end();
+                            }, 1000);
+                            
+                        }else{
+                            setTimeout(() => {
+                                client.end();
+                            }, 1000);
+                        }
+                    }else{
+                        tableautokren[indiceAlice].valeur=1
+                    
+                        setTimeout(() => {
+                            client.end();
+                        }, 1000);
+                    }
+                }
+
+
                   
                   
                 } catch (ex) {
@@ -202,7 +302,8 @@ const server = net.createServer((client) => {
     console.log(`${client.remoteAddress}:${client.remotePort} connected!`);
     //log.logger.debug(`${client.remoteAddress}:${client.remotePort} connected!`);
 
-   
+    
+    
 
     handleClient(client);
     
