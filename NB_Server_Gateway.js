@@ -232,8 +232,11 @@ function handleClient(client) {
                                             console.error("Une erreur s'est produite lors du changement de la valeur :", err);
                                             return;
                                         }
-                                        
-                                        tableautokren[indiceAlice].valeur=0
+                                        if (indiceAlice!==-1) {
+
+                                            tableautokren[indiceAlice].valeur=0
+                                        }
+                                       
 
                                        
                                     });
