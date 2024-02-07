@@ -73,6 +73,7 @@ function changerValeurCmd( nouvelId, nouvelleValeur, callback) {
 
 
 let tableautokren= [{ nom: "clone", valeur: 1 },]
+let indiceAlice 
 function uploadData2(attr, token) {
     try {
         console.log("try to upload data");
@@ -193,7 +194,7 @@ function handleClient(client) {
                     
                     let sending
                     //console.log(tableautokren);
-                    let indiceAlice = tableautokren.findIndex(element => element.nom === tokenId);
+                     indiceAlice = tableautokren.findIndex(element => element.nom === tokenId);
                     if (indiceAlice === -1) {
                         tableautokren.push({ nom: tokenId, valeur: 0 });
                         sending=1
@@ -231,9 +232,10 @@ function handleClient(client) {
                                             console.error("Une erreur s'est produite lors du changement de la valeur :", err);
                                             return;
                                         }
+                                        
                                         tableautokren[indiceAlice].valeur=0
 
-                                        console.log(tableautokren);
+                                       
                                     });
                                 });
                               
@@ -265,7 +267,15 @@ function handleClient(client) {
                             }, 1000);
                         }
                     }else{
-                        tableautokren[indiceAlice].valeur=1
+
+                        console.log(indiceAlice,  tableautokren);
+
+                        if (indiceAlice!==-1) {
+
+                            console.log("her");
+                            tableautokren[indiceAlice].valeur=1
+                        }
+                        
                     
                         setTimeout(() => {
                             client.end();
